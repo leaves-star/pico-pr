@@ -1,33 +1,24 @@
 name: Build Pico Project
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on: [push, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v3
 
-    - name: Install dependencies
+    # 下载并设置 pico-sdk
+    - name: Setup Pico SDK
       run: |
-        sudo apt-get update
-        sudo apt-get install -y cmake ninja-build gcc-arm-none-eabi
+        git clone https://github.com/raspberrypi/pico-sdk.git pico-sdk
+        cd pico-sdk
+        git submodule update --init
+      shell: bash
 
-    - name: Setup pico-sdk environment variable
-      run: echo "PICO_SDK_PATH=$HOME/pico-sdk" >> $GITHUB_ENV
+    - name: Configure build
+      run: cmake -B build -S . -DPICO_SDK_PATH=$PWD/pico-sdk
 
-    - name: Clone pico-sdk
-      run: git clone --depth=1 https://github.com/raspberrypi/pico-sdk.git $HOME/pico-sdk
-
-    - name: Build project
-      run: |
-        mkdir build
-        cd build
-        cmake .. -G Ninja
-        ninja
+    - name: Build
+      run: cmake --build build
