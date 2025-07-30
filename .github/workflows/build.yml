@@ -1,0 +1,33 @@
+name: Build Pico Project
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake ninja-build gcc-arm-none-eabi
+
+    - name: Setup pico-sdk environment variable
+      run: echo "PICO_SDK_PATH=$HOME/pico-sdk" >> $GITHUB_ENV
+
+    - name: Clone pico-sdk
+      run: git clone --depth=1 https://github.com/raspberrypi/pico-sdk.git $HOME/pico-sdk
+
+    - name: Build project
+      run: |
+        mkdir build
+        cd build
+        cmake .. -G Ninja
+        ninja
