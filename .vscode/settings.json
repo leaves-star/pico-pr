@@ -1,0 +1,32 @@
+{
+    "cmake.generator": "Ninja",
+    "cmake.configureOnEdit": false,
+    "cmake.automaticReconfigure": false,
+    "cmake.configureOnOpen": true,
+    "C_Cpp.debugShortcut": false,
+
+    "cmake.configureArgs": [
+        "-DPICO_SDK_PATH=D:/pico/pico-sdk"
+    ],
+
+    "terminal.integrated.env.windows": {
+        "PICO_SDK_PATH": "D:/pico/pico-sdk"
+    },
+
+    "raspberry-pi-pico.cmakeAutoConfigure": true,
+    "raspberry-pi-pico.useCmakeTools": false,
+
+    "files.associations": {
+        "charconv": "cpp",
+        "optional": "cpp",
+        "format": "cpp",
+        "system_error": "cpp",
+        "array": "cpp",
+        "functional": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp"
+    }
+}
+
+
